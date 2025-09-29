@@ -42,6 +42,10 @@ npm run test:e2e
 
 End-to-end tests live in `tests/e2e` and rely on Playwright. The Playwright config starts the Vite dev server automatically.
 
+### Continuous integration
+
+GitHub Actions workflows in `.github/workflows` run linting, unit tests, build checks, and Playwright E2E suites on every push and pull request against `main`.
+
 ## Project Structure
 
 ```
