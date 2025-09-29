@@ -1,0 +1,52 @@
+{
+  "id": "demo",
+  "title": "Learning How to Learn",
+  "version": 1,
+  "description": "Small sampler covering recall, spacing, and chunking.",
+  "concepts": [
+    { "id": "concept.retrieval", "name": "Active recall", "tags": ["core"] },
+    { "id": "concept.spacing", "name": "Spaced practice", "tags": ["core"] },
+    { "id": "concept.chunking", "name": "Chunking", "tags": ["strategy"] }
+  ],
+  "items": [
+    {
+      "id": "card.recall.definition",
+      "type": "card",
+      "conceptIds": ["concept.retrieval"],
+      "prompt": "What study technique forces your brain to remember information without looking at the answer?",
+      "answer": "Active recall",
+      "metadata": { "difficulty": 1 }
+    },
+    {
+      "id": "mcq.spacing.benefit",
+      "type": "mcq",
+      "conceptIds": ["concept.spacing"],
+      "stem": "Spacing your practice across the week results in…",
+      "choices": [
+        { "id": "choice1", "text": "Better long-term retention", "correct": true },
+        { "id": "choice2", "text": "More cramming" },
+        { "id": "choice3", "text": "Immediate mastery" },
+        { "id": "choice4", "text": "Less effort overall" }
+      ],
+      "metadata": { "difficulty": 1 }
+    },
+    {
+      "id": "cloze.chunking.example",
+      "type": "cloze",
+      "conceptIds": ["concept.chunking"],
+      "tokens": [
+        { "type": "text", "value": "Grouping bits of information into meaningful blocks reduces " },
+        { "type": "blank", "value": "working memory load" },
+        { "type": "text", "value": "." }
+      ],
+      "answer": ["working memory load"],
+      "metadata": { "difficulty": 2 }
+    }
+  ],
+  "graphs": {
+    "prereq_edges": [
+      ["concept.retrieval", "concept.spacing"],
+      ["concept.spacing", "concept.chunking"]
+    ]
+  }
+}
