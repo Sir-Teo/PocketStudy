@@ -5,7 +5,9 @@ import type {
   ClozeToken,
   Course,
   CourseItem,
+  MatchItem,
   McqItem,
+  OrderingItem,
 } from './types';
 
 export interface RawClozeItem
@@ -54,7 +56,7 @@ export function normalizeCourse(raw: RawCourse): Course {
     if (item.type === 'cloze') {
       return normalizeCloze(item as RawClozeItem);
     }
-    return item as CardItem | McqItem;
+    return item as CardItem | McqItem | MatchItem | OrderingItem;
   });
 
   return {

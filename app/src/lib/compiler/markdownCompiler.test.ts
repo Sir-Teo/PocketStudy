@@ -16,7 +16,9 @@ Quiz:
 ## Concept: Spaced practice (concept_id: memory.spacing)
 Definition: Spreading study sessions across time improves consolidation.
 Quiz:
-- Card: "Key benefit of spacing" | "Combats forgetting and builds durable memories"`;
+- Card: "Key benefit of spacing" | "Combats forgetting and builds durable memories"
+- Match: ["Spacing -> combats forgetting", "Spacing -> distributes practice"]
+- Ordering: ["Preview", "Study", "Review"]`;
 
   it('produces a normalized course with items for definitions and quizzes', () => {
     const { course, warnings } = compileMarkdownCourse(sample);
@@ -26,9 +28,11 @@ Quiz:
     expect(course.lang).toBe('en');
     expect(course.tags).toEqual(['cognition', 'basics']);
     expect(course.concepts).toHaveLength(2);
-    expect(course.items).toHaveLength(5);
+    expect(course.items).toHaveLength(7);
     const cloze = course.items.find((item) => item.type === 'cloze');
     expect(cloze?.id).toMatch(/^cloze\./);
+    expect(course.items.some((item) => item.type === 'match')).toBe(true);
+    expect(course.items.some((item) => item.type === 'ordering')).toBe(true);
   });
 
   it('throws a MarkdownCompileError when required directives are missing', () => {

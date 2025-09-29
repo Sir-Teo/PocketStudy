@@ -4,7 +4,7 @@ import { ensureCourseInstalled } from '../lib/courseService';
 import { recordReview } from '../lib/scheduler';
 import { updateMastery } from '../lib/progress';
 import { getDueQueue, type SessionQueueItem } from '../lib/sessionQueue';
-import type { ClozeItem, Grade } from '../lib/types';
+import type { ClozeItem, Grade, MatchItem, OrderingItem } from '../lib/types';
 import { GradeButtons } from '../components/GradeButtons';
 
 export default function SessionPage() {
@@ -104,6 +104,51 @@ export default function SessionPage() {
                 );
               })}
             </p>
+          </div>
+        );
+      }
+      case 'match': {
+        const matchItem = entry.item as MatchItem;
+        return (
+          <div className="prompt-card match-card">
+            <div className="match-columns">
+              <div>
+                <h3>Prompts</h3>
+                <ul>
+                  {matchItem.pairs.map((pair) => (
+                    <li key={pair.id}>{pair.prompt}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3>Answers</h3>
+                <ul>
+                  {matchItem.pairs.map((pair) => (
+                    <li key={pair.id}>{showAnswer ? pair.answer : '????'}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      case 'ordering': {
+        const orderingItem = entry.item as OrderingItem;
+        const orderedTexts = orderingItem.correctOrder
+          .map((stepId) => orderingItem.steps.find((step) => step.id === stepId)?.text ?? '')
+          .filter(Boolean);
+        const visibleSteps = showAnswer
+          ? orderedTexts
+          : orderingItem.steps.map((step) => step.text);
+        const ListComponent = showAnswer ? 'ol' : 'ul';
+        return (
+          <div className="prompt-card ordering-card">
+            <h2>Arrange the following</h2>
+            <ListComponent>
+              {visibleSteps.map((step, index) => (
+                <li key={step + index}>{step}</li>
+              ))}
+            </ListComponent>
           </div>
         );
       }

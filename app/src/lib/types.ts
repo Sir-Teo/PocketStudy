@@ -1,4 +1,4 @@
-export type ItemType = 'card' | 'mcq' | 'cloze';
+export type ItemType = 'card' | 'mcq' | 'cloze' | 'match' | 'ordering';
 
 export interface Concept {
   id: string;
@@ -33,6 +33,23 @@ export interface McqItem extends CourseItemBase {
   choices: McqChoice[];
 }
 
+export interface MatchPair {
+  id: string;
+  prompt: string;
+  answer: string;
+}
+
+export interface MatchItem extends CourseItemBase {
+  type: 'match';
+  pairs: MatchPair[];
+}
+
+export interface OrderingItem extends CourseItemBase {
+  type: 'ordering';
+  steps: { id: string; text: string }[];
+  correctOrder: string[];
+}
+
 export interface ClozeToken {
   type: 'text' | 'blank';
   value: string;
@@ -44,7 +61,7 @@ export interface ClozeItem extends CourseItemBase {
   answer: string[];
 }
 
-export type CourseItem = CardItem | McqItem | ClozeItem;
+export type CourseItem = CardItem | McqItem | ClozeItem | MatchItem | OrderingItem;
 
 export interface Course {
   id: string;

@@ -36,6 +36,28 @@
       "conceptIds": ["concept.chunking"],
       "template": "Grouping bits of information into meaningful blocks reduces {{working memory load}}.",
       "metadata": { "difficulty": 2 }
+    },
+    {
+      "id": "match.recall.techniques",
+      "type": "match",
+      "conceptIds": ["concept.retrieval"],
+      "pairs": [
+        { "id": "pair-1", "prompt": "Active recall", "answer": "Practice retrieving without cues" },
+        { "id": "pair-2", "prompt": "Flashcard review", "answer": "Test yourself repeatedly" }
+      ],
+      "metadata": { "difficulty": 2 }
+    },
+    {
+      "id": "ordering.study.loop",
+      "type": "ordering",
+      "conceptIds": ["concept.spacing"],
+      "steps": [
+        { "id": "step-1", "text": "Plan short sessions" },
+        { "id": "step-2", "text": "Study the material" },
+        { "id": "step-3", "text": "Review on future days" }
+      ],
+      "correctOrder": ["step-1", "step-2", "step-3"],
+      "metadata": { "difficulty": 2 }
     }
   ],
   "graphs": {

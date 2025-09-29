@@ -36,6 +36,8 @@ type ItemCounterKey = `${string}:${string}`;
 const MCQ_PATTERN = /^\s*-\s*MCQ:\s*"(.+?)"\s*\|\s*(\[[^\]]*\])\s*\|\s*(\d+)\s*$/i;
 const CLOZE_PATTERN = /^\s*-\s*Cloze:\s*(.+)$/i;
 const CARD_PATTERN = /^\s*-\s*Card:\s*"(.+?)"\s*\|\s*"(.+?)"\s*$/i;
+const MATCH_PATTERN = /^\s*-\s*Match:\s*(\[[^\]]*\])\s*$/i;
+const ORDERING_PATTERN = /^\s*-\s*Ordering:\s*(\[[^\]]*\])\s*$/i;
 const CONCEPT_HEADER = /^##\s*Concept:\s*(.+?)(?:\s*\(concept_id:\s*([^\s)]+)\))?\s*$/i;
 
 function nextItemId(conceptId: string, type: string, counters: Map<ItemCounterKey, number>) {
@@ -233,6 +235,89 @@ export function compileMarkdownCourse(
           prompt,
           answer,
           metadata: { difficulty: 1 },
+        });
+        continue;
+      }
+
+      const match = line.match(MATCH_PATTERN);
+      if (match) {
+        const [, payload] = match;
+        let rawPairs: string[] = [];
+        try {
+          rawPairs = JSON.parse(payload);
+          if (!Array.isArray(rawPairs)) {
+            throw new Error('not an array');
+          }
+        } catch (error) {
+          errors.push(`Invalid match pairs for concept ${currentConcept.concept.name}`);
+          continue;
+        }
+
+        const pairs = rawPairs
+          .map((entry, index) => {
+            if (typeof entry !== 'string') {
+              return null;
+            }
+            const [prompt, answer] = entry.split(/=>|->|\|/).map((segment) => segment.trim());
+            if (!prompt || !answer) {
+              return null;
+            }
+            return {
+              id: `pair-${index + 1}`,
+              prompt,
+              answer,
+            };
+          })
+          .filter(Boolean);
+
+        if (!pairs.length) {
+          errors.push(`No valid match pairs for concept ${currentConcept.concept.name}`);
+          continue;
+        }
+
+        const matchId = nextItemId(currentConcept.concept.id, 'match', counters);
+        items.push({
+          id: matchId,
+          type: 'match',
+          conceptIds: [currentConcept.concept.id],
+          pairs: pairs as { id: string; prompt: string; answer: string }[],
+          metadata: { difficulty: 2 },
+        });
+        continue;
+      }
+
+      const ordering = line.match(ORDERING_PATTERN);
+      if (ordering) {
+        const [, payload] = ordering;
+        let steps: string[] = [];
+        try {
+          steps = JSON.parse(payload);
+          if (!Array.isArray(steps)) {
+            throw new Error('not an array');
+          }
+        } catch (error) {
+          errors.push(`Invalid ordering steps for concept ${currentConcept.concept.name}`);
+          continue;
+        }
+
+        if (!steps.length) {
+          errors.push(`Ordering exercise requires at least one step for concept ${currentConcept.concept.name}`);
+          continue;
+        }
+
+        const stepEntries = steps.map((text, index) => ({
+          id: `step-${index + 1}`,
+          text: String(text),
+        }));
+
+        const orderingId = nextItemId(currentConcept.concept.id, 'ordering', counters);
+        items.push({
+          id: orderingId,
+          type: 'ordering',
+          conceptIds: [currentConcept.concept.id],
+          steps: stepEntries,
+          correctOrder: stepEntries.map((step) => step.id),
+          metadata: { difficulty: 2 },
         });
         continue;
       }
