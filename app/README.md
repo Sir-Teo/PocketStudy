@@ -7,6 +7,7 @@ PocketStudy is a local-first study companion you can run entirely in the browser
 - Installs a bundled "Learning How to Learn" demo course on first run and seeds its schedule locally.
 - Runs a mixed drill session (flashcards, multiple choice, cloze) with manual grading buttons mapped to FSRS-style scheduling updates (`src/lib/fsrs.ts`).
 - Supports additional drill types (pair matching, ordering) and adaptively pulls in weak concepts for targeted practice.
+- Builds tag-aware distractor pools for MCQs and surfaces concept dependencies in the Knowledge Graph view (`src/pages/KnowledgeGraph.tsx`).
 - Tracks attempts, due queues, concept mastery, installed courses, and profile settings in IndexedDB via `PocketStudyDB` (`src/lib/db.ts`).
 - Calculates daily streaks, due counts, and recent activity on the Home and Stats views using live Dexie queries.
 - Lets you install/remove course bundles from `/public/courses` through the Course Browser page (`src/pages/CourseBrowser.tsx`).
@@ -66,6 +67,7 @@ npm run test:e2e     # Playwright end-to-end drills
 ```
 
 - Unit tests cover FSRS updates, schedule seeding/recording, mastery progression, free-response normalization, and the grading buttons UI.
+- Component tests exercise the App shell, key pages (Home, Stats, Knowledge Graph), and the `useCourse` data hook for higher coverage.
 - `tests/e2e` houses Playwright flows; the config spins up Vite automatically and expects the dev server to run with `--host` when executing inside CI containers.
 
 ## Project Structure
@@ -93,13 +95,14 @@ Comparing to `roadmap.md`:
 - ✅ **Week 2** goals complete: session engine with card/MCQ/cloze prompts, FSRS-style grading, due-count and streak stats.
 - ✅ **Week 3** goals complete: concept mastery tracking, JSON backup import/export, and templated cloze authoring for cloze cards.
 - ✅ **Week 4** goals complete: Markdown course compiler, on-device authoring UI, and install pipeline for generated bundles.
-- 🔄 **Week 5** in progress: pair matching + ordering exercises shipped alongside adaptive queueing; knowledge graph and tag-based distractor pools pending.
+- ✅ **Week 5** goals complete: pair matching + ordering exercises, adaptive queueing, tag-based MCQ distractors, and knowledge graph visualisation.
+- 🔄 **Week 6** in progress: offline hardening and performance polish.
 
 ## Next Steps
 
-1. Finish Week 5 scope with knowledge graph visualization and tag-based distractor pools for MCQs.
-2. Harden offline behavior: background sync, smarter cache busting, and full PWA Lighthouse pass (Week 6).
-3. Package export files as `.zip` bundles alongside course assets for the longer-term V1 milestone.
-4. Extend adaptive targeting with configurable session mixes and integrate pair-matching UI polish.
+1. Harden offline behavior further: background sync, smarter cache busting, and full PWA Lighthouse pass (Week 6 follow-up).
+2. Package export files as `.zip` bundles alongside course assets for the longer-term V1 milestone.
+3. Extend adaptive targeting with configurable session mixes and polish the pair-matching interaction.
+4. Add automated Lighthouse checks and perf budgets in CI once the PWA optimisations land.
 
 See `roadmap.md` for the detailed phased plan and algorithm notes.

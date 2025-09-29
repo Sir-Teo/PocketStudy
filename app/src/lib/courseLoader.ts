@@ -1,4 +1,5 @@
 import { db } from './db';
+import { augmentMcqDistractors } from './distractors';
 import type { Course } from './types';
 import { normalizeCourse, type RawCourse } from './normalizeCourse';
 
@@ -17,8 +18,9 @@ export async function loadCourse(id: string): Promise<Course> {
 
   const stored = await db.customCourses.get(id);
   if (stored) {
-    courseCache.set(id, { course: stored, loadedAt: Date.now() });
-    return stored;
+    const augmented = augmentMcqDistractors(stored);
+    courseCache.set(id, { course: augmented, loadedAt: Date.now() });
+    return augmented;
   }
 
   const response = await fetch(`/courses/${id}/course.json`);
@@ -27,7 +29,7 @@ export async function loadCourse(id: string): Promise<Course> {
   }
 
   const data = (await response.json()) as RawCourse;
-  const normalized = normalizeCourse(data);
+  const normalized = augmentMcqDistractors(normalizeCourse(data));
   courseCache.set(id, { course: normalized, loadedAt: Date.now() });
   return normalized;
 }

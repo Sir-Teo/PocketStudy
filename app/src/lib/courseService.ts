@@ -1,5 +1,6 @@
 import { db } from './db';
 import { loadCourse } from './courseLoader';
+import { augmentMcqDistractors } from './distractors';
 import { seedSchedule } from './scheduler';
 import type { Course, InstalledCourse } from './types';
 
@@ -48,16 +49,17 @@ export async function ensureCourseInstalled(id: string) {
 }
 
 export async function installCompiledCourse(course: Course) {
+  const augmented = augmentMcqDistractors(course);
   const installed: InstalledCourse = {
-    id: course.id,
-    version: course.version,
-    title: course.title,
+    id: augmented.id,
+    version: augmented.version,
+    title: augmented.title,
     installedTs: Date.now(),
   };
 
   await db.transaction('rw', db.customCourses, db.courses, db.schedule, async () => {
-    await db.customCourses.put(course);
+    await db.customCourses.put(augmented);
     await db.courses.put(installed);
-    await seedSchedule(course);
+    await seedSchedule(augmented);
   });
 }
