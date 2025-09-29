@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/Home';
 import CourseBrowserPage from './pages/CourseBrowser';
+import EditorPage from './pages/Editor';
 import SessionPage from './pages/Session';
 import StatsPage from './pages/Stats';
 import SettingsPage from './pages/Settings';
@@ -24,6 +25,7 @@ export default function App() {
         <nav className="top-nav">
           <NavLink to="/learn">Learn</NavLink>
           <NavLink to="/courses">Courses</NavLink>
+          <NavLink to="/editor">Author</NavLink>
           <NavLink to="/stats">Stats</NavLink>
           <NavLink to="/settings">Settings</NavLink>
         </nav>
@@ -33,6 +35,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/learn" element={<SessionPage />} />
           <Route path="/courses" element={<CourseBrowserPage />} />
+          <Route path="/editor" element={<EditorPage />} />
           <Route path="/stats" element={<StatsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="*" element={<NotFound />} />

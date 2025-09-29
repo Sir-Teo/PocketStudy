@@ -1,3 +1,4 @@
+import { db } from './db';
 import type { Course } from './types';
 import { normalizeCourse, type RawCourse } from './normalizeCourse';
 
@@ -12,6 +13,12 @@ export async function loadCourse(id: string): Promise<Course> {
   const cached = courseCache.get(id);
   if (cached) {
     return cached.course;
+  }
+
+  const stored = await db.customCourses.get(id);
+  if (stored) {
+    courseCache.set(id, { course: stored, loadedAt: Date.now() });
+    return stored;
   }
 
   const response = await fetch(`/courses/${id}/course.json`);

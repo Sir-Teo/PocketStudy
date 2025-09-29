@@ -11,6 +11,7 @@ export default function CourseBrowserPage() {
     queryFn: listCourses,
   });
   const installed = useLiveQuery(() => db.courses.toArray(), []);
+  const authored = useLiveQuery(() => db.customCourses.toArray(), []);
   const [actionState, setActionState] = useState<string | null>(null);
 
   const installedSet = new Set(installed?.map((course) => course.id));
@@ -78,6 +79,39 @@ export default function CourseBrowserPage() {
           </li>
         ))}
       </ul>
+      {authored?.length ? (
+        <section className="authored-courses">
+          <h2>Your authored courses</h2>
+          <ul className="course-list">
+            {authored.map((course) => (
+              <li key={course.id} className="course-card">
+                <div>
+                  <h3>{course.title}</h3>
+                  <p>{course.description}</p>
+                  <small>ID: {course.id}</small>
+                </div>
+                <div className="course-actions">
+                  <button
+                    type="button"
+                    className="secondary"
+                    disabled={actionState === course.id}
+                    onClick={async () => {
+                      setActionState(course.id);
+                      try {
+                        await removeCourse(course.id);
+                      } finally {
+                        setActionState(null);
+                      }
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </main>
   );
 }
