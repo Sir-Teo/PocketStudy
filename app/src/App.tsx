@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from 'react';
+import { NavLink, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/Home';
+import CourseBrowserPage from './pages/CourseBrowser';
+import SessionPage from './pages/Session';
+import StatsPage from './pages/Stats';
+import SettingsPage from './pages/Settings';
+import { ensureCourseInstalled } from './lib/courseService';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  useEffect(() => {
+    ensureCourseInstalled('demo').catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error('Failed to ensure demo course installed', error);
+    });
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app-shell">
+      <header className="top-bar">
+        <NavLink to="/" className="brand">
+          PocketStudy
+        </NavLink>
+        <nav className="top-nav">
+          <NavLink to="/learn">Learn</NavLink>
+          <NavLink to="/courses">Courses</NavLink>
+          <NavLink to="/stats">Stats</NavLink>
+          <NavLink to="/settings">Settings</NavLink>
+        </nav>
+      </header>
+      <main className="content">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/learn" element={<SessionPage />} />
+          <Route path="/courses" element={<CourseBrowserPage />} />
+          <Route path="/stats" element={<StatsPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
-export default App
+function NotFound() {
+  return (
+    <div className="not-found">
+      <h1>Not found</h1>
+      <p>The page you requested does not exist.</p>
+    </div>
+  );
+}

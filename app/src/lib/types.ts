@@ -65,6 +65,7 @@ export type Grade = 0 | 1 | 2 | 3;
 
 export interface ScheduleEntry {
   itemId: string;
+  courseId: string;
   dueTs: number;
   stability: number;
   difficulty: number;

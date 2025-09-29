@@ -1,6 +1,6 @@
 import { db } from './db';
 import { fsrsUpdate } from './fsrs';
-import type { CourseItem, Grade, ItemType, ScheduleEntry } from './types';
+import type { Course, Grade, ItemType, ScheduleEntry } from './types';
 
 const MAX_SESSION_ITEMS = 20;
 
@@ -14,13 +14,15 @@ export async function getDueItems(now = Date.now()) {
   return due;
 }
 
-export async function seedSchedule(items: CourseItem[], now = Date.now()) {
+export async function seedSchedule(course: Course, now = Date.now()) {
+  const items = course.items;
   const existingIds = new Set(await db.schedule.toCollection().primaryKeys());
 
   const seeds: ScheduleEntry[] = items
     .filter((item) => !existingIds.has(item.id))
     .map((item) => ({
       itemId: item.id,
+      courseId: course.id,
       dueTs: now,
       stability: 24 * 60 * 60 * 1000,
       difficulty: 2.5,

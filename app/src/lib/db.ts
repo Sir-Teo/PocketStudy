@@ -1,4 +1,4 @@
-import Dexie, { Table } from 'dexie';
+import Dexie, { type Table } from 'dexie';
 import type {
   AttemptLog,
   InstalledCourse,
@@ -19,7 +19,7 @@ export class PocketStudyDB extends Dexie {
 
     this.version(1).stores({
       attempts: '++id,itemId,ts',
-      schedule: 'itemId,dueTs',
+      schedule: 'itemId,courseId,dueTs',
       mastery: 'conceptId',
       profiles: 'id',
       courses: 'id',

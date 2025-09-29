@@ -30,6 +30,7 @@ export function fsrsUpdate(
 ): UpdateResult {
   const now = options.now ?? Date.now();
   const elapsedMs = options.elapsedMs ?? (previous ? Math.max(1, now - previous.dueTs) : MIN_INTERVAL);
+  const elapsedFactor = previous ? Math.max(0.5, elapsedMs / MIN_INTERVAL) : 1;
 
   const prevStability = previous?.stability ?? MIN_INTERVAL;
   const prevDifficulty = previous?.difficulty ?? 2.5;
@@ -37,7 +38,8 @@ export function fsrsUpdate(
   const lapses = previous ? previous.lapses + (grade === 0 ? 1 : 0) : grade === 0 ? 1 : 0;
 
   const difficulty = clamp(prevDifficulty + DIFFICULTY_DELTA[grade], 1, 3);
-  const stability = clamp(prevStability * STABILITY_MULTIPLIER[grade] + (grade >= 2 ? MIN_INTERVAL : 0), MIN_INTERVAL, MIN_INTERVAL * 365);
+  const stabilityBase = prevStability * STABILITY_MULTIPLIER[grade] * elapsedFactor;
+  const stability = clamp(stabilityBase + (grade >= 2 ? MIN_INTERVAL : 0), MIN_INTERVAL, MIN_INTERVAL * 365);
 
   const interval = Math.max(MIN_INTERVAL, Math.round(stability));
   const dueTs = now + interval;

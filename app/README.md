@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# PocketStudy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight, local-first study companion inspired by Duolingo. The MVP ships a React + TypeScript single-page app that runs fully in the browser with IndexedDB persistence, spaced repetition scheduling, and a starter course.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Local Dexie database for attempts, schedule, mastery, and installed courses
+- FSRS-style spaced repetition updates with manual grading
+- Demo course bundle (`public/courses/demo/course.json`) auto-installed on first launch
+- Session flow with cards, multiple choice, and cloze prompts
+- Course browser to install or remove local course bundles
+- Home dashboard with due count and streak estimation
+- Stats overview with recent review history
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The dev server runs on <http://localhost:5173>. Because the app reads static course bundles from `public/courses`, run the dev server with `--host` when using Playwright e2e tests.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Testing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Unit tests
+
+```bash
+npm run test        # single run
+npm run test:watch  # watch mode
+npm run test:ui     # Vitest UI
 ```
+
+Tests use Vitest with jsdom, React Testing Library, and coverage reports via `@vitest/coverage-v8`.
+
+### End-to-end tests
+
+```bash
+npx playwright install
+npm run test:e2e
+```
+
+End-to-end tests live in `tests/e2e` and rely on Playwright. The Playwright config starts the Vite dev server automatically.
+
+## Project Structure
+
+```
+src/
+  lib/          // domain logic (db, scheduler, session queue, etc.)
+  pages/        // top-level routes
+  components/   // shared UI building blocks
+  hooks/        // React hooks
+  workers/      // reserved for future background workers
+public/
+  courses/      // bundled course metadata and items
+```
+
+## Next Steps
+
+- Expand exercise types with interactive MCQs and validation
+- Implement import/export of user state
+- Add offline service worker with background sync
+- Build Markdown → course compiler and on-device authoring tools
