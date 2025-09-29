@@ -97,11 +97,16 @@ export interface InstalledCourse {
   title: string;
 }
 
+export interface ProfileSettings {
+  dailyGoal: number;
+  [key: string]: unknown;
+}
+
 export interface Profile {
   id: string;
   displayName: string;
   createdAt: number;
-  settings: Record<string, unknown>;
+  settings: ProfileSettings;
 }
 
 export const DEFAULT_PROFILE_ID = 'default';

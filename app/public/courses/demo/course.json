@@ -34,12 +34,7 @@
       "id": "cloze.chunking.example",
       "type": "cloze",
       "conceptIds": ["concept.chunking"],
-      "tokens": [
-        { "type": "text", "value": "Grouping bits of information into meaningful blocks reduces " },
-        { "type": "blank", "value": "working memory load" },
-        { "type": "text", "value": "." }
-      ],
-      "answer": ["working memory load"],
+      "template": "Grouping bits of information into meaningful blocks reduces {{working memory load}}.",
       "metadata": { "difficulty": 2 }
     }
   ],

@@ -288,6 +288,12 @@
   gap: 0.5rem;
 }
 
+.settings-page {
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+}
+
 .settings-page input {
   border-radius: 0.75rem;
   border: 1px solid #cbd5f5;
@@ -298,6 +304,15 @@
 .help-text {
   color: #6b7280;
   font-size: 0.9rem;
+}
+
+.status-message {
+  color: #2563eb;
+  font-size: 0.9rem;
+}
+
+.status-message.error {
+  color: #dc2626;
 }
 
 @media (max-width: 720px) {

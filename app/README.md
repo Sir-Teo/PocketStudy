@@ -9,6 +9,7 @@ PocketStudy is a local-first study companion you can run entirely in the browser
 - Tracks attempts, due queues, concept mastery, installed courses, and profile settings in IndexedDB via `PocketStudyDB` (`src/lib/db.ts`).
 - Calculates daily streaks, due counts, and recent activity on the Home and Stats views using live Dexie queries.
 - Lets you install/remove course bundles from `/public/courses` through the Course Browser page (`src/pages/CourseBrowser.tsx`).
+- Exports and restores progress via JSON backups from the Settings page (`src/pages/Settings.tsx`).
 - Registers a service worker (`public/sw.js`) that caches the app shell and course bundles for offline use.
 - Provides Vitest coverage of scheduler, mastery, evaluation, and UI grading logic; Playwright is wired for end-to-end sessions.
 
@@ -88,14 +89,14 @@ Comparing to `roadmap.md`:
 
 - ✅ **Week 1** goals complete: Vite scaffold, Dexie schema, demo course loader, service worker scaffold.
 - ✅ **Week 2** goals complete: session engine with card/MCQ/cloze prompts, FSRS-style grading, due-count and streak stats.
-- 🔄 **Week 3** in progress: concept mastery is tracked, but import/export flows and richer cloze authoring still remain.
+- ✅ **Week 3** goals complete: concept mastery tracking, JSON backup import/export, and templated cloze authoring for cloze cards.
 - ⏭️ Weeks 4+ (Markdown compiler, adaptive practice, additional exercise types, graph visualizations) have not started.
 
 ## Next Steps
 
-1. Build import/export of user progress and installed courses (aligns with Week 3 deliverables).
-2. Flesh out the Markdown → course compiler and on-device authoring UI (Week 4).
-3. Expand exercise coverage (pair matching, ordering) and adaptive session targeting using `mastery` (Week 5).
-4. Harden offline behavior: background sync, smarter cache busting, and full PWA Lighthouse pass (Week 6).
+1. Flesh out the Markdown → course compiler and on-device authoring UI (Week 4).
+2. Expand exercise coverage (pair matching, ordering) and adaptive session targeting using `mastery` (Week 5).
+3. Harden offline behavior: background sync, smarter cache busting, and full PWA Lighthouse pass (Week 6).
+4. Package export files as `.zip` bundles alongside course assets for the longer-term V1 milestone.
 
 See `roadmap.md` for the detailed phased plan and algorithm notes.

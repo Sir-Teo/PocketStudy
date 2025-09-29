@@ -1,4 +1,5 @@
 import type { Course } from './types';
+import { normalizeCourse, type RawCourse } from './normalizeCourse';
 
 type CacheEntry = {
   loadedAt: number;
@@ -18,9 +19,10 @@ export async function loadCourse(id: string): Promise<Course> {
     throw new Error(`Failed to load course ${id}`);
   }
 
-  const data = (await response.json()) as Course;
-  courseCache.set(id, { course: data, loadedAt: Date.now() });
-  return data;
+  const data = (await response.json()) as RawCourse;
+  const normalized = normalizeCourse(data);
+  courseCache.set(id, { course: normalized, loadedAt: Date.now() });
+  return normalized;
 }
 
 export async function listCourses(): Promise<Pick<Course, 'id' | 'title' | 'description'>[]> {
