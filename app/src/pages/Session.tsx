@@ -14,7 +14,6 @@ export default function SessionPage() {
 
   useEffect(() => {
     ensureCourseInstalled('demo').catch((error) => {
-      // eslint-disable-next-line no-console
       console.error('Failed to ensure demo course installed', error);
     });
   }, []);

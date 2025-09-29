@@ -7,7 +7,6 @@ import { ensureDefaultProfile } from '../lib/initProfile';
 export default function HomePage() {
   useEffect(() => {
     ensureDefaultProfile().catch((error) => {
-      // eslint-disable-next-line no-console
       console.error('Failed to ensure default profile', error);
     });
   }, []);

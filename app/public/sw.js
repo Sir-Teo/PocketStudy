@@ -9,7 +9,6 @@ const APP_SHELL = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).catch((error) => {
-      // eslint-disable-next-line no-console
       console.warn('SW install failed', error);
     }),
   );
