@@ -330,6 +330,19 @@
   color: #dc2626;
 }
 
+.file-input {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 500;
+}
+
+.file-input input[type='file'] {
+  border: 1px dashed #94a3b8;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(148, 163, 184, 0.08);
+}
+
 .editor-page {
   display: grid;
   gap: 1.5rem;

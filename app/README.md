@@ -8,6 +8,7 @@ PocketStudy is a local-first study companion you can run entirely in the browser
 - Runs a mixed drill session (flashcards, multiple choice, cloze) with manual grading buttons mapped to FSRS-style scheduling updates (`src/lib/fsrs.ts`).
 - Supports additional drill types (pair matching, ordering) and adaptively pulls in weak concepts for targeted practice.
 - Builds tag-aware distractor pools for MCQs and surfaces concept dependencies in the Knowledge Graph view (`src/pages/KnowledgeGraph.tsx`).
+- Ships with two offline-ready example courses (learning science + meta-habits) to showcase language and non-language content.
 - Tracks attempts, due queues, concept mastery, installed courses, and profile settings in IndexedDB via `PocketStudyDB` (`src/lib/db.ts`).
 - Calculates daily streaks, due counts, and recent activity on the Home and Stats views using live Dexie queries.
 - Lets you install/remove course bundles from `/public/courses` through the Course Browser page (`src/pages/CourseBrowser.tsx`).
@@ -96,13 +97,13 @@ Comparing to `roadmap.md`:
 - ✅ **Week 3** goals complete: concept mastery tracking, JSON backup import/export, and templated cloze authoring for cloze cards.
 - ✅ **Week 4** goals complete: Markdown course compiler, on-device authoring UI, and install pipeline for generated bundles.
 - ✅ **Week 5** goals complete: pair matching + ordering exercises, adaptive queueing, tag-based MCQ distractors, and knowledge graph visualisation.
-- 🔄 **Week 6** in progress: offline hardening and performance polish.
+- ✅ **Week 6** goals complete: broader test suite coverage, dual example courses, mobile polish, and an upgraded offline caching strategy.
 
 ## Next Steps
 
-1. Harden offline behavior further: background sync, smarter cache busting, and full PWA Lighthouse pass (Week 6 follow-up).
-2. Package export files as `.zip` bundles alongside course assets for the longer-term V1 milestone.
+1. Add background sync for queued exports/imports and run automated Lighthouse checks to lock in ≥90 PWA scores.
+2. Package exports as `.zip` bundles alongside course assets for the longer-term V1 milestone.
 3. Extend adaptive targeting with configurable session mixes and polish the pair-matching interaction.
-4. Add automated Lighthouse checks and perf budgets in CI once the PWA optimisations land.
+4. Explore stretch goals (audio prompts, offline NLP) once the polish backlog is clear.
 
 See `roadmap.md` for the detailed phased plan and algorithm notes.

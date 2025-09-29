@@ -1,0 +1,68 @@
+{
+  "id": "habits",
+  "title": "Habits of Effective Learners",
+  "version": 1,
+  "description": "Non-language course that reinforces metacognitive strategies.",
+  "concepts": [
+    { "id": "concept.focus", "name": "Focused work", "tags": ["habit", "metacognition"] },
+    { "id": "concept.reflection", "name": "Reflective practice", "tags": ["habit"] },
+    { "id": "concept.energy", "name": "Energy management", "tags": ["wellness"] }
+  ],
+  "items": [
+    {
+      "id": "card.focus.definition",
+      "type": "card",
+      "conceptIds": ["concept.focus"],
+      "prompt": "What does focused work emphasise?",
+      "answer": "Single-task attention with deliberate breaks",
+      "metadata": { "difficulty": 1 }
+    },
+    {
+      "id": "mcq.reflection.prompt",
+      "type": "mcq",
+      "conceptIds": ["concept.reflection"],
+      "stem": "Which activity best supports reflective practice?",
+      "choices": [
+        { "id": "choice-1", "text": "Running a weekly retro", "correct": true },
+        { "id": "choice-2", "text": "Adding more multitasking" }
+      ],
+      "metadata": { "difficulty": 2 }
+    },
+    {
+      "id": "cloze.energy.signal",
+      "type": "cloze",
+      "conceptIds": ["concept.energy"],
+      "template": "Use {{energy audits}} to map when you do your best thinking.",
+      "metadata": { "difficulty": 1 }
+    },
+    {
+      "id": "ordering.focus.ritual",
+      "type": "ordering",
+      "conceptIds": ["concept.focus"],
+      "steps": [
+        { "id": "step-1", "text": "Choose a single task" },
+        { "id": "step-2", "text": "Set a timer" },
+        { "id": "step-3", "text": "Work without switching contexts" },
+        { "id": "step-4", "text": "Log what you completed" }
+      ],
+      "correctOrder": ["step-1", "step-2", "step-3", "step-4"],
+      "metadata": { "difficulty": 2 }
+    },
+    {
+      "id": "match.reflection.examples",
+      "type": "match",
+      "conceptIds": ["concept.reflection"],
+      "pairs": [
+        { "id": "pair-1", "prompt": "Daily journal", "answer": "Capture lessons and blockers" },
+        { "id": "pair-2", "prompt": "After-action review", "answer": "Extract improvements post-project" }
+      ],
+      "metadata": { "difficulty": 2 }
+    }
+  ],
+  "graphs": {
+    "prereq_edges": [
+      ["concept.focus", "concept.reflection"],
+      ["concept.energy", "concept.focus"]
+    ]
+  }
+}

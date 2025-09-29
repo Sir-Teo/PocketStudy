@@ -3,5 +3,10 @@
     "id": "demo",
     "title": "Learning How to Learn",
     "description": "Core strategies for effective learning across disciplines"
+  },
+  {
+    "id": "habits",
+    "title": "Habits of Effective Learners",
+    "description": "Metacognitive routines that pair well with any knowledge domain"
   }
 ]

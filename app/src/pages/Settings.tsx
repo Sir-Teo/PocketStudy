@@ -146,13 +146,17 @@ export default function SettingsPage() {
       <section className="setting">
         <h2>Restore</h2>
         <p>Import a previously downloaded backup.</p>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="application/json"
-          onChange={handleImport}
-          disabled={importStatus === 'working'}
-        />
+        <label className="file-input" htmlFor="backup-file">
+          Select backup file
+          <input
+            id="backup-file"
+            ref={fileInputRef}
+            type="file"
+            accept="application/json"
+            onChange={handleImport}
+            disabled={importStatus === 'working'}
+          />
+        </label>
         {importMessage ? (
           <p className={`status-message${importStatus === 'error' ? ' error' : ''}`}>
             {importMessage}
