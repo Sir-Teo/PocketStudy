@@ -16,14 +16,12 @@ vi.mock('../lib/courseLoader', () => ({
   loadCourse: vi.fn(),
 }));
 
-vi.mock('../lib/courseService', async (original) => {
-  const actual = await original();
-  return {
-    ...actual,
-    installCourse: mocks.installCourse,
-    removeCourse: mocks.removeCourse,
-  };
-});
+vi.mock('../lib/courseService', () => ({
+  installCourse: mocks.installCourse,
+  removeCourse: mocks.removeCourse,
+  ensureCourseInstalled: vi.fn(),
+  installCompiledCourse: vi.fn(),
+}));
 
 describe('CourseBrowserPage', () => {
   beforeAll(async () => {

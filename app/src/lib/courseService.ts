@@ -13,7 +13,7 @@ export async function installCourse(id: string): Promise<Course> {
     title: course.title,
   };
 
-  await db.transaction('rw', db.courses, db.schedule, async () => {
+  await db.transaction('rw', [db.courses, db.schedule], async () => {
     await db.courses.put(installed);
     await seedSchedule(course);
   });
@@ -22,7 +22,7 @@ export async function installCourse(id: string): Promise<Course> {
 }
 
 export async function removeCourse(id: string) {
-  await db.transaction('rw', db.courses, db.schedule, db.mastery, db.customCourses, async () => {
+  await db.transaction('rw', [db.courses, db.schedule, db.mastery, db.customCourses], async () => {
     const course = await loadCourse(id).catch(() => null);
     await db.courses.delete(id);
     await db.schedule.where('courseId').equals(id).delete();
@@ -57,7 +57,7 @@ export async function installCompiledCourse(course: Course) {
     installedTs: Date.now(),
   };
 
-  await db.transaction('rw', db.customCourses, db.courses, db.schedule, async () => {
+  await db.transaction('rw', [db.customCourses, db.courses, db.schedule], async () => {
     await db.customCourses.put(augmented);
     await db.courses.put(installed);
     await seedSchedule(augmented);

@@ -34,7 +34,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  await db.transaction('rw', db.schedule, db.attempts, db.courses, async () => {
+  await db.transaction('rw', [db.schedule, db.attempts, db.courses], async () => {
     await db.schedule.clear();
     await db.attempts.clear();
     await db.courses.clear();

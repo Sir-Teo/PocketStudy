@@ -42,7 +42,7 @@ describe('backup import/export', () => {
   });
 
   beforeEach(async () => {
-    await db.transaction('rw', db.attempts, db.schedule, db.mastery, db.courses, db.profiles, async () => {
+    await db.transaction('rw', [db.attempts, db.schedule, db.mastery, db.courses, db.profiles], async () => {
       await Promise.all([
         db.attempts.clear(),
         db.schedule.clear(),
@@ -54,7 +54,7 @@ describe('backup import/export', () => {
   });
 
   it('round-trips data through a snapshot', async () => {
-    await db.transaction('rw', db.courses, db.schedule, db.mastery, db.attempts, async () => {
+    await db.transaction('rw', [db.courses, db.schedule, db.mastery, db.attempts], async () => {
       await db.courses.add(demoCourse);
       await db.schedule.add(scheduleEntry);
       await db.mastery.add(masteryEntry);
@@ -65,7 +65,7 @@ describe('backup import/export', () => {
     expect(snapshot.version).toBe(1);
     expect(snapshot.tables.courses).toHaveLength(1);
 
-    await db.transaction('rw', db.courses, db.schedule, db.mastery, db.attempts, async () => {
+    await db.transaction('rw', [db.courses, db.schedule, db.mastery, db.attempts], async () => {
       await db.courses.clear();
       await db.schedule.clear();
       await db.mastery.clear();

@@ -59,11 +59,7 @@ export async function importSnapshot(snapshot: PocketStudySnapshot): Promise<voi
 
   await db.transaction(
     'rw',
-    db.attempts,
-    db.schedule,
-    db.mastery,
-    db.courses,
-    db.profiles,
+    [db.attempts, db.schedule, db.mastery, db.courses, db.profiles],
     async () => {
       await Promise.all([
         db.attempts.clear(),

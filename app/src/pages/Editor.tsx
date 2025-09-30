@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { type FormEvent, useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { compileMarkdownCourse, MarkdownCompileError } from '../lib/compiler/markdownCompiler';
 import { installCompiledCourse } from '../lib/courseService';
