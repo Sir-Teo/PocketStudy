@@ -40,6 +40,10 @@ const MATCH_PATTERN = /^\s*-\s*Match:\s*(\[[^\]]*\])\s*$/i;
 const ORDERING_PATTERN = /^\s*-\s*Ordering:\s*(\[[^\]]*\])\s*$/i;
 const CONCEPT_HEADER = /^##\s*Concept:\s*(.+?)(?:\s*\(concept_id:\s*([^\s)]+)\))?\s*$/i;
 
+function describeError(error: unknown) {
+  return error instanceof Error ? error.message : String(error);
+}
+
 function nextItemId(conceptId: string, type: string, counters: Map<ItemCounterKey, number>) {
   const base = `${conceptId.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`;
   const key: ItemCounterKey = `${type}:${base}`;
@@ -182,7 +186,8 @@ export function compileMarkdownCourse(
             throw new Error('not an array');
           }
         } catch (error) {
-          errors.push(`Invalid MCQ choices for concept ${currentConcept.concept.name}`);
+          const reason = describeError(error);
+          errors.push(`Invalid MCQ choices for concept ${currentConcept.concept.name} (${reason})`);
           continue;
         }
 
@@ -249,7 +254,8 @@ export function compileMarkdownCourse(
             throw new Error('not an array');
           }
         } catch (error) {
-          errors.push(`Invalid match pairs for concept ${currentConcept.concept.name}`);
+          const reason = describeError(error);
+          errors.push(`Invalid match pairs for concept ${currentConcept.concept.name} (${reason})`);
           continue;
         }
 
@@ -296,7 +302,8 @@ export function compileMarkdownCourse(
             throw new Error('not an array');
           }
         } catch (error) {
-          errors.push(`Invalid ordering steps for concept ${currentConcept.concept.name}`);
+          const reason = describeError(error);
+          errors.push(`Invalid ordering steps for concept ${currentConcept.concept.name} (${reason})`);
           continue;
         }
 

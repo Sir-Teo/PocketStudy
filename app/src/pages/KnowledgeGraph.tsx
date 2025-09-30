@@ -55,7 +55,7 @@ export default function KnowledgeGraphPage() {
     return () => {
       cancelled = true;
     };
-  }, [key, masteryMap]);
+  }, [installed, key, masteryMap]);
 
   return (
     <section className="graph-page">
